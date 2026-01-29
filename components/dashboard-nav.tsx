@@ -195,29 +195,35 @@ export function DashboardNav() {
           isCollapsed ? "p-2 flex justify-center" : "p-4"
         )}>
           <div className={cn(
-            "flex items-center rounded-xl glass-strong group hover:glow-primary transition-all cursor-pointer",
+            "flex items-center rounded-xl glass-strong group hover:glow-primary transition-all",
             isCollapsed ? "justify-center p-2 w-12 h-12" : "gap-3 px-4 py-3"
           )}>
-            <UserButton
-              afterSignOutUrl="/"
-              appearance={{
-                elements: {
-                  avatarBox: cn(
-                    "ring-2 ring-indigo-400/50 group-hover:ring-indigo-400 transition-all group-hover:scale-110",
-                    isCollapsed ? "h-8 w-8" : "h-10 w-10"
-                  )
-                }
-              }}
-            />
-            {!isCollapsed && (
-              <>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-white truncate">Your Account</p>
-                  <p className="text-xs text-indigo-300/60">Manage settings</p>
-                </div>
-                <Sparkles className="h-4 w-4 text-indigo-400 group-hover:rotate-180 transition-transform duration-500" />
-              </>
-            )}
+            <div className="flex items-center gap-3 w-full">
+              <UserButton
+                afterSignOutUrl="/"
+                appearance={{
+                  elements: {
+                    avatarBox: cn(
+                      "ring-2 ring-indigo-400/50 hover:ring-indigo-400 transition-all hover:scale-110 cursor-pointer",
+                      isCollapsed ? "h-8 w-8" : "h-10 w-10"
+                    ),
+                    userButtonPopoverCard: "glass-strong border border-indigo-500/20",
+                    userButtonPopoverActionButton: "text-white hover:glass-strong",
+                    userButtonPopoverActionButtonText: "text-white",
+                    userButtonPopoverFooter: "hidden"
+                  }
+                }}
+              />
+              {!isCollapsed && (
+                <>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-white truncate">Your Account</p>
+                    <p className="text-xs text-indigo-300/60">Click to manage</p>
+                  </div>
+                  <Sparkles className="h-4 w-4 text-indigo-400 group-hover:rotate-180 transition-transform duration-500" />
+                </>
+              )}
+            </div>
           </div>
         </div>
       </aside>

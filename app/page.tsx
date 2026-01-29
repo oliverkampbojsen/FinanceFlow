@@ -11,6 +11,9 @@ export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; size: number; duration: number }>>([]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -381,6 +384,97 @@ export default function Home() {
                 <div className="h-0.5 w-0 group-hover/badge:w-full bg-gradient-to-r from-indigo-400 to-purple-400 transition-all duration-300 rounded-full mt-1 mx-auto"></div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Newsletter Section */}
+        <div className={`mt-32 mb-20 glass-strong rounded-3xl p-12 max-w-4xl mx-auto transform transition-all duration-1000 delay-800 hover:scale-105 hover:glow-primary group relative overflow-hidden ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          {/* Background decoration */}
+          <div className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+          <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+
+          <div className="relative z-10">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <Sparkles className="h-8 w-8 text-indigo-400 group-hover:scale-110 group-hover:rotate-180 transition-all duration-500" />
+              <h2 className="text-3xl font-bold text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-indigo-300 group-hover:to-purple-300 group-hover:bg-clip-text transition-all">
+                Stay Updated
+              </h2>
+            </div>
+            <p className="text-center text-indigo-200/70 max-w-2xl mx-auto mb-8 group-hover:text-indigo-100 transition-colors">
+              Get the latest financial tips, product updates, and exclusive insights delivered straight to your inbox.
+            </p>
+
+            <form
+              className="max-w-md mx-auto"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setIsSubmitting(true);
+                setMessage(null);
+
+                try {
+                  const response = await fetch('/api/newsletter', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email }),
+                  });
+
+                  const data = await response.json();
+
+                  if (response.ok) {
+                    setMessage({ type: "success", text: "🎉 Successfully subscribed! Check your email." });
+                    setEmail("");
+                  } else {
+                    setMessage({ type: "error", text: data.error || "Something went wrong. Please try again." });
+                  }
+                } catch (error) {
+                  setMessage({ type: "error", text: "Network error. Please try again." });
+                } finally {
+                  setIsSubmitting(false);
+                }
+              }}
+            >
+              <div className="flex gap-3">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="flex-1 glass-strong rounded-xl px-6 py-4 text-white placeholder:text-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:glow-primary transition-all"
+                  required
+                  disabled={isSubmitting}
+                />
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="px-8 py-4 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white font-medium glow-primary hover:scale-105 transition-all group/button relative overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    {isSubmitting ? "Subscribing..." : "Subscribe"}
+                    <Sparkles className="h-4 w-4 group-hover/button:rotate-180 transition-transform duration-500" />
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 opacity-0 group-hover/button:opacity-100 transition-opacity"></div>
+                </button>
+              </div>
+
+              {message && (
+                <div className={`mt-4 p-4 rounded-xl text-center font-medium animate-fade-in ${
+                  message.type === "success"
+                    ? "bg-green-500/20 text-green-300 border border-green-500/30"
+                    : "bg-red-500/20 text-red-300 border border-red-500/30"
+                }`}>
+                  {message.text}
+                </div>
+              )}
+
+              <p className="text-center text-xs text-indigo-300/50 mt-4">
+                No spam. Unsubscribe anytime. We respect your privacy.
+              </p>
+            </form>
+
+            {/* Animated border on hover */}
+            <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-indigo-400 to-transparent animate-border-flow"></div>
+            </div>
           </div>
         </div>
       </main>

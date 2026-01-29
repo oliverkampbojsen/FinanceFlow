@@ -79,17 +79,29 @@ export function DashboardNav() {
         </div>
 
         {/* Navigation */}
-        <nav className="space-y-1 p-4">
+        <nav className={cn(
+          "space-y-1 p-4",
+          isCollapsed && "flex flex-col items-center"
+        )}>
           {/* Home Link */}
           <Link
             href="/"
-            className="flex items-center gap-3 px-4 py-3 rounded-xl glass hover:glass-strong transition-all group relative overflow-hidden"
+            className={cn(
+              "flex items-center rounded-xl glass hover:glass-strong transition-all group relative overflow-hidden",
+              isCollapsed ? "justify-center p-3 w-12 h-12" : "gap-3 px-4 py-3"
+            )}
             onMouseEnter={() => setHoveredItem("home")}
             onMouseLeave={() => setHoveredItem(null)}
             title={isCollapsed ? "Home" : ""}
           >
-            <div className="relative z-10 flex items-center gap-3 w-full">
-              <div className="p-2 rounded-lg bg-gradient-to-br from-indigo-500/20 to-purple-500/20 group-hover:scale-110 transition-transform">
+            <div className={cn(
+              "relative z-10 flex items-center w-full",
+              isCollapsed ? "justify-center" : "gap-3"
+            )}>
+              <div className={cn(
+                "rounded-lg bg-gradient-to-br from-indigo-500/20 to-purple-500/20 group-hover:scale-110 transition-transform",
+                isCollapsed ? "p-2" : "p-2"
+              )}>
                 <Home className="h-4 w-4 text-indigo-300" />
               </div>
               {!isCollapsed && (
@@ -101,7 +113,10 @@ export function DashboardNav() {
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
           </Link>
 
-          <div className="h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent my-4"></div>
+          <div className={cn(
+            "bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent my-4",
+            isCollapsed ? "h-px w-8" : "h-px"
+          )}></div>
 
           {navigation.map((item) => {
             const isActive = pathname === item.href || pathname?.startsWith(item.href + "/");
@@ -110,7 +125,8 @@ export function DashboardNav() {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 px-4 py-3 rounded-xl transition-all group relative overflow-hidden",
+                  "flex items-center rounded-xl transition-all group relative overflow-hidden",
+                  isCollapsed ? "justify-center p-3 w-12 h-12" : "gap-3 px-4 py-3",
                   isActive
                     ? "glass-strong glow-primary"
                     : "glass hover:glass-strong"
@@ -119,9 +135,13 @@ export function DashboardNav() {
                 onMouseLeave={() => setHoveredItem(null)}
                 title={isCollapsed ? item.name : ""}
               >
-                <div className="relative z-10 flex items-center gap-3 w-full">
+                <div className={cn(
+                  "relative z-10 flex items-center w-full",
+                  isCollapsed ? "justify-center" : "gap-3"
+                )}>
                   <div className={cn(
-                    "p-2 rounded-lg transition-all",
+                    "rounded-lg transition-all",
+                    isCollapsed ? "p-2" : "p-2",
                     isActive
                       ? `bg-gradient-to-br ${item.color} glow-primary group-hover:scale-110 group-hover:rotate-12`
                       : "bg-gradient-to-br from-indigo-500/20 to-purple-500/20 group-hover:scale-110"
@@ -170,16 +190,22 @@ export function DashboardNav() {
         </nav>
 
         {/* Bottom Section - User */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-indigo-500/20">
+        <div className={cn(
+          "absolute bottom-0 left-0 right-0 border-t border-indigo-500/20",
+          isCollapsed ? "p-2 flex justify-center" : "p-4"
+        )}>
           <div className={cn(
-            "flex items-center gap-3 px-4 py-3 rounded-xl glass-strong group hover:glow-primary transition-all cursor-pointer",
-            isCollapsed && "justify-center"
+            "flex items-center rounded-xl glass-strong group hover:glow-primary transition-all cursor-pointer",
+            isCollapsed ? "justify-center p-2 w-12 h-12" : "gap-3 px-4 py-3"
           )}>
             <UserButton
               afterSignOutUrl="/"
               appearance={{
                 elements: {
-                  avatarBox: "h-10 w-10 ring-2 ring-indigo-400/50 group-hover:ring-indigo-400 transition-all group-hover:scale-110"
+                  avatarBox: cn(
+                    "ring-2 ring-indigo-400/50 group-hover:ring-indigo-400 transition-all group-hover:scale-110",
+                    isCollapsed ? "h-8 w-8" : "h-10 w-10"
+                  )
                 }
               }}
             />

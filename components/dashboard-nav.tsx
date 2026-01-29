@@ -46,33 +46,36 @@ export function DashboardNav() {
         isCollapsed ? "w-20" : "w-64"
       )}>
         {/* Logo */}
-        <div className="flex h-16 items-center gap-2 px-6 border-b border-indigo-500/20 relative">
-          <div className="relative group">
-            <TrendingUp className="h-6 w-6 text-indigo-400 group-hover:scale-110 transition-transform" />
-            <div className="absolute inset-0 animate-ping opacity-0 group-hover:opacity-30">
-              <TrendingUp className="h-6 w-6 text-indigo-400" />
-            </div>
-          </div>
-          {!isCollapsed && (
-            <span className="font-bold text-xl bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              FinanceFlow
-            </span>
+        <div className={cn(
+          "flex h-16 items-center border-b border-indigo-500/20 relative transition-all duration-300",
+          isCollapsed ? "justify-center px-4" : "gap-2 px-6"
+        )}>
+          {isCollapsed ? (
+            <button
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="glass-strong p-3 rounded-xl hover:scale-110 transition-all duration-300 group hover:glow-primary"
+            >
+              <ChevronRight className="h-5 w-5 text-indigo-400 group-hover:text-white transition-colors" />
+            </button>
+          ) : (
+            <>
+              <div className="relative group">
+                <TrendingUp className="h-6 w-6 text-indigo-400 group-hover:scale-110 transition-transform" />
+                <div className="absolute inset-0 animate-ping opacity-0 group-hover:opacity-30">
+                  <TrendingUp className="h-6 w-6 text-indigo-400" />
+                </div>
+              </div>
+              <span className="font-bold text-xl bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent flex-1">
+                FinanceFlow
+              </span>
+              <button
+                onClick={() => setIsCollapsed(!isCollapsed)}
+                className="glass-strong p-2 rounded-lg hover:scale-110 transition-all duration-300 group hover:glow-primary"
+              >
+                <ChevronLeft className="h-4 w-4 text-indigo-400 group-hover:text-white transition-colors" />
+              </button>
+            </>
           )}
-
-          {/* Toggle Button */}
-          <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className={cn(
-              "absolute glass-strong p-2 rounded-lg hover:scale-110 transition-all duration-300 group",
-              isCollapsed ? "-right-4 top-1/2 -translate-y-1/2" : "right-4 top-1/2 -translate-y-1/2"
-            )}
-          >
-            {isCollapsed ? (
-              <ChevronRight className="h-4 w-4 text-indigo-400 group-hover:text-white transition-colors" />
-            ) : (
-              <ChevronLeft className="h-4 w-4 text-indigo-400 group-hover:text-white transition-colors" />
-            )}
-          </button>
         </div>
 
         {/* Navigation */}

@@ -17,7 +17,7 @@ export async function POST(request: Request) {
 
     // Send welcome email
     await resend.emails.send({
-      from: 'FinanceFlow <onboarding@resend.dev>', // Use your verified domain later
+      from: 'FinanceFlow <newsletter@financeflow24.com>',
       to: email,
       subject: 'Welcome to FinanceFlow Newsletter! 🚀',
       html: `

@@ -102,7 +102,7 @@ export async function POST(request: Request) {
                 </ul>
 
                 <div style="text-align: center;">
-                  <a href="https://business-site-one-psi.vercel.app/" class="button">Get Started with FinanceFlow</a>
+                  <a href="https://financeflow24.com/" class="button">Get Started with FinanceFlow</a>
                 </div>
 
                 <p>We respect your privacy and will never share your email with anyone.</p>
